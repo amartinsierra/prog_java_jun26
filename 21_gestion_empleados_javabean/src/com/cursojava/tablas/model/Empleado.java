@@ -35,6 +35,11 @@ public class Empleado {
 	public void setDepartamento(String departamento) {
 		this.departamento = departamento;
 	}
+	@Override
+	public String toString() {
+		return "Empleado [codigo=" + codigo + ", nombre=" + nombre + ", salario=" + salario + ", departamento="
+				+ departamento + "]";
+	}
 	
 	
 }

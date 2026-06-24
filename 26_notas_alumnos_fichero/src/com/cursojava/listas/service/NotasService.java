@@ -1,6 +1,7 @@
 package com.cursojava.listas.service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,6 +10,18 @@ import java.util.ArrayList;
 
 public class NotasService {
 	final String RUTA="c:\\temp\\notas.txt";
+	public NotasService() {
+		//comprobamos si existe el fichero y si no existe se crea
+		File file=new File(RUTA);
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	public void guardarNota(int nota) {
 		try(FileOutputStream fos=new FileOutputStream(RUTA, true);
 				PrintStream out=new PrintStream(fos);){
@@ -23,7 +36,7 @@ public class NotasService {
 		try (FileReader fr =new FileReader (RUTA);
 				BufferedReader bf= new BufferedReader(fr);){
 			while ((linea=bf.readLine())!=null) {  // lee la línea y al mismo tiempo la compara
-				if (Double.parseDouble(linea)>=5) {
+				if (Integer.parseInt(linea)>=5) {
 					aprobados ++;
 				}
 			}			
@@ -41,7 +54,7 @@ public class NotasService {
 			int contador=0;
 			while((linea=bf.readLine())!=null) {
 				contador++;
-				media+=Double.parseDouble(linea);
+				media+=Integer.parseInt(linea);
 			}
 			return media/contador;
 		}catch(IOException ex) {

@@ -23,13 +23,21 @@ public class EmpleadosService {
 		return false;
 	}
 	
-	public String[] nombres() {
-		String[] resultado=new String[empleados.size()];
+	public Empleado[] nombres() {
+		/*String[] resultado=new String[empleados.size()];
 		int pos=0;
 		for(Empleado n:empleados.values()) {
 			resultado[pos]=n.getNombre();
 			pos++;//para pasar a la siguiente posición del array
 		}
-		return resultado;	
+		return resultado;	*/
+		Empleado[] resultado=new Empleado[empleados.size()];
+		int pos=0;
+		for(Empleado n:empleados.values()) {
+			resultado[pos]=n;
+			pos++;//para pasar a la siguiente posición del array
+		}
+		return resultado;
+		
 	}
 }
