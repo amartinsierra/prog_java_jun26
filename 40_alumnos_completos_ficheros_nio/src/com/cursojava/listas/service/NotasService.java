@@ -13,7 +13,7 @@ import com.cursojava.listas.model.Alumno;
 import com.cursojava.listas.util.Utilidades;
 
 public class NotasService {
-	final Path RUTA=Path.of("c:\\temp\\alumnos.txt");
+	final Path RUTA=Path.of("c:\\temp\\alumnos.csv");
 	
 	public NotasService() {
 		//comprobamos si existe el fichero y si no existe se crea		

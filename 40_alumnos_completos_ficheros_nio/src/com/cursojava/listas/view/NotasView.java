@@ -30,6 +30,7 @@ public class NotasView {
 					case 5->System.out.println("Adios");
 				}
 			}catch(NumberFormatException ex) {
+				ex.printStackTrace();
 				System.out.println("Error en la opción");
 				opcion=6;
 			}
@@ -61,6 +62,7 @@ public class NotasView {
 				System.out.println("No se puede repetir la misma combinación nombre y curso!!");
 			}
 		}catch(NumberFormatException ex) {
+			ex.printStackTrace();
 			System.out.println("Datos introducidos no válidos "+ex.getMessage());
 		}
 		
