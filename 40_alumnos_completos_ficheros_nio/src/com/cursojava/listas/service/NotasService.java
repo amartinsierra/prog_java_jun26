@@ -1,36 +1,74 @@
 package com.cursojava.listas.service;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.cursojava.listas.model.Alumno;
+import com.cursojava.listas.util.Utilidades;
 
 public class NotasService {
-	ArrayList<Alumno> alumnos=new ArrayList<>();
+	final Path RUTA=Path.of("c:\\temp\\alumnos.txt");
+	
+	public NotasService() {
+		//comprobamos si existe el fichero y si no existe se crea		
+		if(!Files.exists(RUTA)) {
+			try {
+				Files.createFile(RUTA);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	public boolean guardarAlumno(Alumno alumno) {
-		for(Alumno al:alumnos) {
-			if(al.getNombre().equals(alumno.getNombre())&&al.getCurso().equals(alumno.getCurso())) {
+		try {
+			if(Files.lines(RUTA)
+					.map(a->Utilidades.filaToAlumno(a))
+					.anyMatch(a->a.getNombre().equals(alumno.getNombre())&&a.getCurso().equals(alumno.getCurso()))) {
 				return false;
 			}
+			Files.writeString(RUTA, Utilidades.alumnoToFila(alumno), StandardOpenOption.APPEND);
+			return true;
+		}catch(IOException ex) {
+			ex.printStackTrace();
+			return false;
 		}
-		return alumnos.add(alumno);
 	}
-	public int aprobados() {
-		int aprobados=0;
-		for(Alumno a:alumnos) {
-			if(a.getNota()>=5) {
-				aprobados++;
-			}
+	public List<Alumno> alumnosCurso(String curso) {
+		try {
+			return Files.lines(RUTA)
+					.map(a->Utilidades.filaToAlumno(a))
+					.filter(a->a.getCurso().equals(curso))
+					.toList();
+		}catch(IOException ex) {
+			ex.printStackTrace();
+			return List.of();
 		}
-		return aprobados;
 	}
 	public double media() {
-		double suma=0;
-		for(Alumno a:alumnos) {
-			suma+=a.getNota();
+		try {
+			return Files.lines(RUTA)
+					.map(a->Utilidades.filaToAlumno(a))
+					.collect(Collectors.averagingDouble(a->a.getNota()));
+		}catch(IOException ex) {
+			ex.printStackTrace();
+			return 0;
 		}
-		return suma/alumnos.size();
 	}
-	public ArrayList<Alumno> recuperarAlumnos(){
-		return alumnos;
+	public Optional<Alumno> alumnoAventajado(){
+		try {
+			return Files.lines(RUTA)
+					.map(a->Utilidades.filaToAlumno(a))
+					.max(Comparator.comparingDouble(a->a.getNota()));
+		}catch(IOException ex) {
+			ex.printStackTrace();
+			return Optional.empty();
+		}
 	}
 }

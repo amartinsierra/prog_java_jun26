@@ -1,5 +1,6 @@
 package com.cursojava.listas.view;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.cursojava.listas.model.Alumno;
@@ -21,7 +22,7 @@ public class NotasView {
 				switch(opcion) {
 					case 1->guardarNota();
 		
-					case 2->totalAprobados();
+					case 2->alumnosCurso();
 		
 					case 3->mostrarMedia();
 		
@@ -39,9 +40,9 @@ public class NotasView {
 	//método para mostrar el menú
 	static void menu() {
 		System.out.println("1.- Introducir alumno");
-		System.out.println("2.- Total aprobados");
+		System.out.println("2.- Alumnos por curso");
 		System.out.println("3.- Mostrar media");
-		System.out.println("4.- Mostrar alumnos");
+		System.out.println("4.- Alumno aventajado");
 		System.out.println("5.- Salir");
 	}
 	//método para pedir la nota y guardarla
@@ -69,13 +70,15 @@ public class NotasView {
 		System.out.println("Media: "+notasService.media());
 	}
 	//método para mostrar aprobados
-	static void totalAprobados() {
-		System.out.println("Aprobados: "+notasService.aprobados());
+	static void alumnosCurso() {
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Introduce curso: ");
+		String curso=scan.nextLine();
+		List<Alumno> alumnos=notasService.alumnosCurso(curso);
+		alumnos.forEach(System.out::println);
 	}
 	//método para mostrar todas las notas
 	static void mostrarNotas() {
-		for(Alumno a:notasService.recuperarAlumnos()) {
-			System.out.println("Nombre: "+a.getNombre()+" Curso: "+a.getCurso()+" Nota:"+a.getNota());
-		}		
+		notasService.alumnoAventajado().ifPresentOrElse(System.out::println, ()->System.out.println("No se encontró alumno"));		
 	}
 }
