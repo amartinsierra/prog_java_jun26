@@ -1,6 +1,8 @@
 package com.cursojava.listas.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class NotasService {
 	ArrayList<Integer> notas=new ArrayList<>();
@@ -8,22 +10,15 @@ public class NotasService {
 		notas.add(nota);
 	}
 	public int aprobados() {
-		int aprobados=0;
-		for(int n:notas) {
-			if(n>=5) {
-				aprobados++;
-			}
-		}
-		return aprobados;
+		return (int)notas.stream()
+				.filter(n->n>=5)
+				.count();
 	}
 	public double media() {
-		double suma=0;
-		for(int n:notas) {
-			suma+=n;
-		}
-		return suma/notas.size();
+		return notas.stream()
+				.collect(Collectors.averagingDouble(n->n));
 	}
-	public ArrayList<Integer> recuperarNotas(){
+	public List<Integer> recuperarNotas(){
 		return notas;
 	}
 }
