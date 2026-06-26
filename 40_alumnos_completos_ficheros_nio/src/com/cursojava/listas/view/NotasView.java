@@ -51,7 +51,7 @@ public class NotasView {
 		Scanner scan=new Scanner(System.in);
 		try {
 			System.out.println("Introduce nota: ");
-			int nota=Integer.parseInt(scan.nextLine());
+			double nota=Double.parseDouble(scan.nextLine());
 			System.out.println("Introduce nombre: ");
 			String nombre=scan.nextLine();
 			System.out.println("Introduce curso: ");
